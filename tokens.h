@@ -18,7 +18,7 @@ Descripci�n: Definici�n de tokens para el lenguaje ALFA
 #define TOK_SCANF               108
 #define TOK_PRINTF              109
 #define TOK_RETURN              110
-
+#define TOK_SALTO_LINEA         111
 
 /* S�mbolos */
 #define TOK_PUNTOYCOMA          200

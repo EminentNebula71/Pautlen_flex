@@ -27,15 +27,17 @@ while  {COLUMNAS;return TOK_WHILE;}
 "<="  {COLUMNAS;return TOK_MENORIGUAL;}
 "<"  {COLUMNAS;return TOK_MENOR;}
 ">"  {COLUMNAS;return TOK_MAYOR;}
+"="  {COLUMNAS;return TOK_IGUAL; }
 "{"  {COLUMNAS;return TOK_LLAVEIZQUIERDA;}
 "}"  {COLUMNAS;return TOK_LLAVEDERECHA;}
+","  {COLUMNAS;return TOK_COMA;}
 "//".* {FILAS;}
 [a-zA-Z]([a-zA-Z]|[0-9])*  {COLUMNAS;return TOK_IDENTIFICADOR;}
 [0-9]+ {COLUMNAS;return TOK_CONSTANTE_ENTERA;}
 [\t]  {COLUMNAS;}
-[\n]  {printf("%ld\n", ncol);ncol=1;FILAS;}
+[\n]  {ncol=1;FILAS;}
 [ ]  {COLUMNAS;}
-[.^\n]  {return TOK_ERROR;}
+. {return TOK_ERROR;}
 %%
 
 int yylex();
@@ -43,17 +45,19 @@ int main(int argc, char *argv[]){
 
   int ret;
   yyin = fopen(argv[1], "r");
-  yyout = fopen("salida.txt", "w");
+  yyout = fopen(argv[2], "w");
 
   while((ret = yylex())!=0){
-    if ((ret == TOK_MAIN || ret == TOK_INT || ret == TOK_ARRAY || ret == TOK_IF || ret == TOK_ELSE || ret == TOK_WHILE || ret == TOK_PUNTOYCOMA |ret == TOK_PARENTESISIZQUIERDO || ret == TOK_PARENTESISDERECHO || ret == TOK_ASTERISCO || ret == TOK_MAS ||  ret == TOK_MENORIGUAL || ret == TOK_LLAVEIZQUIERDA || ret == TOK_LLAVEDERECHA || ret == TOK_IDENTIFICADOR || ret == TOK_CONSTANTE_ENTERA || ret == TOK_MENOS || ret == TOK_MENOR || ret == TOK_MAYOR) && yyleng<100){
+    if ((ret == TOK_MAIN || ret == TOK_INT || ret == TOK_ARRAY || ret == TOK_IF || ret == TOK_ELSE || ret == TOK_WHILE || ret == TOK_PUNTOYCOMA |ret == TOK_PARENTESISIZQUIERDO || ret == TOK_PARENTESISDERECHO || ret == TOK_ASTERISCO || ret == TOK_MAS ||  ret == TOK_MENORIGUAL || ret == TOK_LLAVEIZQUIERDA || ret == TOK_LLAVEDERECHA || ret == TOK_IDENTIFICADOR || ret == TOK_CONSTANTE_ENTERA || ret == TOK_MENOS || ret == TOK_MENOR || ret == TOK_MAYOR || ret == TOK_IGUAL || ret == TOK_COMA) && yyleng<100){
       fprintf(yyout, "RECONOCIDO %d: %s\n", ret, yytext);
     }
-    else if(ret == TOK_ERROR || yyleng>=100){
-      fprintf(yyout, "ERROR\n");
+    else if(yyleng>=100){
+      fprintf(stderr, "identificador demasiado largo(%s)\n", yytext);
+    }
+    else if(ret == TOK_ERROR){
+      fprintf(stderr, "Error en [lin %ld, col %ld]: simbolo no permitido(%s)\n", nlin, ncol, yytext);
     }
   }
-  printf("%ld\n", nlin);
   fclose(yyin);
   fclose(yyout);
   return 0;

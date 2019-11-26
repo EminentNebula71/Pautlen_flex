@@ -12,32 +12,47 @@
 %option noyywrap
 
 %%
-main  {COLUMNAS;return TOK_MAIN;}
-array  {COLUMNAS;return TOK_ARRAY;}
-int  {COLUMNAS;return TOK_INT;}
-if  {COLUMNAS;return TOK_IF;}
-else  {COLUMNAS;return TOK_ELSE;}
-while  {COLUMNAS;return TOK_WHILE;}
-;  {COLUMNAS;return TOK_PUNTOYCOMA;}
-"("  {COLUMNAS;return TOK_PARENTESISIZQUIERDO;}
-")"  {COLUMNAS;return TOK_PARENTESISDERECHO;}
-"*"  {COLUMNAS;return TOK_ASTERISCO;}
-"+"  {COLUMNAS;return TOK_MAS;}
-"-"  {COLUMNAS;return TOK_MENOS;}
-"<="  {COLUMNAS;return TOK_MENORIGUAL;}
-"<"  {COLUMNAS;return TOK_MENOR;}
-">"  {COLUMNAS;return TOK_MAYOR;}
-"="  {COLUMNAS;return TOK_IGUAL; }
-"{"  {COLUMNAS;return TOK_LLAVEIZQUIERDA;}
-"}"  {COLUMNAS;return TOK_LLAVEDERECHA;}
-","  {COLUMNAS;return TOK_COMA;}
-"//".* {FILAS;}
+main     {COLUMNAS;return TOK_MAIN;}
+array    {COLUMNAS;return TOK_ARRAY;}
+int      {COLUMNAS;return TOK_INT;}
+boolean  {COLUMNAS;return TOK_BOOLEAN;}
+function {COLUMNAS;return TOK_FUNCTION;}
+scanf    {COLUMNAS;return TOK_SCANF;}
+printf   {COLUMNAS;return TOK_PRINTF;}
+return   {COLUMNAS;return TOK_RETURN;}
+if       {COLUMNAS;return TOK_IF;}
+else     {COLUMNAS;return TOK_ELSE;}
+while    {COLUMNAS;return TOK_WHILE;}
+true     {COLUMNAS;return TOK_TRUE;}
+false    {COLUMNAS;return TOK_FALSE;}
+;        {COLUMNAS;return TOK_PUNTOYCOMA;}
+"("      {COLUMNAS;return TOK_PARENTESISIZQUIERDO;}
+")"      {COLUMNAS;return TOK_PARENTESISDERECHO;}
+"*"      {COLUMNAS;return TOK_ASTERISCO;}
+"/"      {COLUMNAS;return TOK_DIVISION;}
+"+"      {COLUMNAS;return TOK_MAS;}
+"-"      {COLUMNAS;return TOK_MENOS;}
+"<="     {COLUMNAS;return TOK_MENORIGUAL;}
+">="     {COLUMNAS;return TOK_MAYORIGUAL;}
+"<"      {COLUMNAS;return TOK_MENOR;}
+">"      {COLUMNAS;return TOK_MAYOR;}
+"="      {COLUMNAS;return TOK_IGUAL;}
+"!="     {COLUMNAS;return TOK_DISTINTO;}
+"&&"     {COLUMNAS;return TOK_AND;}
+"||"     {COLUMNAS;return TOK_OR;}
+"!"      {COLUMNAS;return TOK_NOT;}
+"{"      {COLUMNAS;return TOK_LLAVEIZQUIERDA;}
+"}"      {COLUMNAS;return TOK_LLAVEDERECHA;}
+"["      {COLUMNAS;return TOK_CORCHETEIZQUIERDO;}
+"]"      {COLUMNAS;return TOK_CORCHETEDERECHO;}
+","      {COLUMNAS;return TOK_COMA;}
+"//".*   {FILAS;}
 [a-zA-Z]([a-zA-Z]|[0-9])*  {COLUMNAS;return TOK_IDENTIFICADOR;}
-[0-9]+ {COLUMNAS;return TOK_CONSTANTE_ENTERA;}
-[\t]  {COLUMNAS;}
-[\n]  {ncol=1;FILAS;}
-[ ]  {COLUMNAS;}
-. {return TOK_ERROR;}
+[0-9]+   {COLUMNAS;return TOK_CONSTANTE_ENTERA;}
+[\t]     {COLUMNAS;}
+[\n]     {ncol=1;FILAS;}
+[ ]      {COLUMNAS;}
+.        {return TOK_ERROR;}
 %%
 
 int yylex();

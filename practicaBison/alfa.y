@@ -53,19 +53,23 @@ identificadores: identificador {fprintf(salida, ";R18:\t<identificadores> ::=  <
                  identificador TOK_COMA identificadores {fprintf(salida, ";R19:\t<identificadores> ::= <identificador> , <identificadores>\n");} ;
 
 funciones: funcion funciones {fprintf(salida, ";R20:\t<funciones> ::= <funcion> <funciones>\n");}  |
+          {fprintf(salida, ";R21:\t<funciones> ::= \n");}
             ;
 
 funcion: TOK_FUNCTION tipo identificador TOK_PARENTESISIZQUIERDO parametros_funcion TOK_PARENTESISDERECHO TOK_LLAVEIZQUIERDA declaraciones_funcion sentencias TOK_LLAVEDERECHA {fprintf(salida, ";R22:\t<funcion> ::= function <tipo> <identificador> ( <parametros_funcion> ){ <declaraciones_funcion> <sentencias> }\n");}
 
 parametros_funcion: parametro_funcion resto_parametros_funcion {fprintf(salida, ";R23:\t<parametros_funcion> ::= <parametro_funcion> <resto_parametros_funcion>\n");}  |
+                    {fprintf(salida, ";R24:\t<parametros_funcion> ::= \n");}
                     ;
 
 resto_parametros_funcion: TOK_PUNTOYCOMA parametro_funcion resto_parametros_funcion {fprintf(salida, ";R25:\t<resto_parametros_funcion> ::= <parametro_funcion><resto_parametros_funcion>\n");}  |
+                          {fprintf(salida, ";R26:\t<resto_parametros_funcion> ::= \n");}
                           ;
 
 parametro_funcion: tipo  identificador {fprintf(salida, ";R27:\t<parametro_funcion> ::= <tipo> <identificador>\n");}
 
 declaraciones_funcion: declaraciones {fprintf(salida, ";R28:\t<declaraciones_funcion> ::= <declaraciones>\n");}  |
+                       {fprintf(salida, ";R29:\t<declaraciones_funcion> ::= \n");}
                        ;
 
 sentencias: sentencia {fprintf(salida, ";R30:\t<sentencias> ::= <sentencia>\n");}  |
@@ -117,8 +121,10 @@ exp: exp TOK_MAS exp {fprintf (salida, ";R72: <exp> ::= <exp> + <exp>\n");} |
      ;
 
 lista_expresiones: exp resto_lista_expresiones {fprintf(salida, ";R89: <lista_expresiones> ::= <exp> <resto_lista_expresiones>\n");} |
+                   {fprintf(salida, ";R90:\t<lista_expresiones> ::= \n");}
                    ;
 resto_lista_expresiones: TOK_COMA exp resto_lista_expresiones {fprintf(salida, ";R91: <resto_lista_expresiones> ::= , <exp> <resto_lista_expresiones>\n");} |
+                        {fprintf(salida, ";R92:\t<resto_lista_expresiones> ::= \n");}
                         ;
 comparacion: exp TOK_IGUAL TOK_IGUAL exp {fprintf(salida, ";R93: <comparacion> ::= <exp> == <exp>\n");} |
              exp TOK_NOT TOK_IGUAL exp {fprintf(salida, ";R94: <comparacion> ::= <exp> != <exp>\n");} |

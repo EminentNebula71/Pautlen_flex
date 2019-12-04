@@ -197,3 +197,10 @@ int insertarVarLocal(const char *lex, int cat, int tipo, int clase, int tam, int
         return -1;
     }
 }
+
+INFO_SIMBOLO *usoGlobal(const char* lex){
+    if(tabla->tablaGlobal==NULL){
+        return NULL;
+    }
+    return buscar_simbolo(tabla->tablaGlobal, lex);
+}

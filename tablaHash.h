@@ -3,47 +3,37 @@
 
 #include "generacion.h"
 
-/**************** CONSTANTES ****************/
 
 #define HASH_INI 5381
 #define HASH_FACTOR 33
 
-
-/**************** DECLARACIONES DE TIPOS ****************/
-
-/* Información de un símbolo */
 typedef struct {
-    char *lexema;           /* identificador */
-    CATEGORIA categoria;    /* categoría { VARIABLE, PARAMETRO, FUNCION } */
-    TIPO tipo;              /* tipo { ENTERO, BOOLEANO } */
-    CLASE clase;            /* clase { ESCALAR, VECTOR } */
-    int tam;                /* tamaño de un vector */
-    int n_locales;          /* numero de variables locales */
-    int pos_local;          /* posicion de variable local */
-    int n_param;            /* numero de parametros */
-    int pos_param;          /* posicion del parametro */
-    /*int adicional1;     valor si escalar, longitud si vector, número de parámetros si función */
-    /*int adicional2;     posición en llamada a función si parámetro, posición de declaración si variable local de función, número de variables locales si función */
+    char *lexema;           
+    int categoria;   /*0 para variable, 1 para parametro y 2 para funcion */    
+    int tipo;    /*0 para entero y 1 para booleano */              
+    int clase;   /*0 para escalar y 1 para vector */        
+    int tam;              
+    int n_locales;          
+    int pos_local;          
+    int n_param;            
+    int pos_param;        
 } INFO_SIMBOLO;
 
-/* Nodo de la tabla hash */
 typedef struct nodo_hash {
-    INFO_SIMBOLO *info;      /* información del símbolo */
-    struct nodo_hash *siguiente;    /* puntero al siguiente nodo (encadenamiento si colisión en misma celda) */
+    INFO_SIMBOLO *info;      
+    struct nodo_hash *siguiente;   
 } NODO_HASH;
 
-/* Tabla hash */
 typedef struct {
-    int tam;            /* tamaño de la tabla hash */
-    NODO_HASH **tabla;  /* tabla en sí (array de tam punteros a nodo) */
+    int tam;            
+    NODO_HASH **tabla;  
 } TABLA_HASH;
 
 
-/**************** FUNCIONES ****************/
 
 int printTablaSimbolos(FILE* fp, const TABLA_HASH *th);
 int printSimbolo(FILE* fp, INFO_SIMBOLO* info);
-INFO_SIMBOLO *crear_info_simbolo(const char *lexema, CATEGORIA categ, TIPO tipo, CLASE clase, int tam, int n_locales, int pos_local, int n_params, int pos_param);
+INFO_SIMBOLO *crear_info_simbolo(const char *lexema, int categ, int tipo, int clase, int tam, int n_locales, int pos_local, int n_params, int pos_param);
 void liberar_info_simbolo(INFO_SIMBOLO *is);
 NODO_HASH *crear_nodo(INFO_SIMBOLO *is);
 void liberar_nodo(NODO_HASH *nh);
@@ -51,7 +41,7 @@ TABLA_HASH *crear_tabla(int tam);
 void liberar_tabla(TABLA_HASH *th);
 unsigned long hash(const char *str);
 INFO_SIMBOLO *buscar_simbolo(const TABLA_HASH *th, const char *lexema);
-STATUS insertar_simbolo(TABLA_HASH *th, const char *lexema, CATEGORIA categ, TIPO tipo, CLASE clase, int tam, int n_locales, int pos_local, int n_params, int pos_param);
+int insertar_simbolo(TABLA_HASH *th, const char *lexema, int categ, int tipo, int clase, int tam, int n_locales, int pos_local, int n_params, int pos_param);  /*0 errpr y 1 éxito */
 void borrar_simbolo(TABLA_HASH *th, const char *lexema);
 
 #endif

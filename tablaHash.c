@@ -1,4 +1,4 @@
-#include "../includes/tablaHash.h"
+#include "tablaHash.h"
 
 /*
  * Crea una estructura INFO_SIMBOLO a partir de los datos pasados.
@@ -15,7 +15,7 @@
  * Salida:
  *      INFO_SIMBOLO *: puntero a la estructura reservada, NULL si se produce algún error.
  */
-INFO_SIMBOLO *crear_info_simbolo(const char *lexema, CATEGORIA categ, TIPO tipo, CLASE clase, int tam, int n_locales, int pos_local, int n_param, int pos_param) {
+INFO_SIMBOLO *crear_info_simbolo(const char *lexema, int categ, int tipo, int clase, int tam, int n_locales, int pos_local, int n_param, int pos_param) {
     INFO_SIMBOLO *is;
 
     if ((is = (INFO_SIMBOLO *) malloc(sizeof(INFO_SIMBOLO)))) {
@@ -32,10 +32,7 @@ INFO_SIMBOLO *crear_info_simbolo(const char *lexema, CATEGORIA categ, TIPO tipo,
         is->pos_local = pos_local;          /*posicion de variable local*/
         is->n_param = n_param;            /*numero de parametros*/
         is->pos_param = pos_param;
-        /*
-        is->adicional1 = adic1;
-        is->adicional2 = adic2;
-        */
+       
     }
     return is;
 }
@@ -236,7 +233,7 @@ int printSimbolo(FILE* fp, INFO_SIMBOLO* info){
  * Salida:
  *      STATUS: OK si se inserta correctamente, ERR si no (por ya existir o por memoria insuficiente).
  */
-STATUS insertar_simbolo(TABLA_HASH *th, const char *lexema, CATEGORIA categ, TIPO tipo, CLASE clase, int tam, int n_locales, int pos_local, int n_params, int pos_param) {
+STATUS insertar_simbolo(TABLA_HASH *th, const char *lexema, int categ, int tipo, int clase, int tam, int n_locales, int pos_local, int n_params, int pos_param) {
     int ind;
     INFO_SIMBOLO *is;
     NODO_HASH *n = NULL;

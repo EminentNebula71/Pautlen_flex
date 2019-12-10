@@ -4,6 +4,12 @@
 #include "tablaSimbolos.h"
 
 int main(int argc, char *argv[]){
+
+    if(argc!=3){
+        printf("Introduce el fichero de entrada y de salida\n");
+        return -1;
+    }
+    
     FILE *entrada = fopen(argv[1], "r");
     FILE *salida = fopen(argv[2], "w");
     char aux[100];
